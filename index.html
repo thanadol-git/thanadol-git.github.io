@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html lang=“en”>
+<html lang="en">
 <head>
-    <meta charset=“UTF-8">
-    <meta name=“viewport” content=“width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My CV</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #F4F4F4;
+            background-color: #f0f2f5;
+            color: #333;
         }
         .container {
             width: 80%;
@@ -17,11 +18,10 @@
             overflow: hidden;
         }
         header {
-            background: #333;
+            background: #0073e6;
             color: #fff;
-            padding-top: 30px;
-            min-height: 70px;
-            border-bottom: #77AAFF 3px solid;
+            padding: 20px 0;
+            border-bottom: #005bb5 3px solid;
         }
         header a {
             color: #fff;
@@ -36,7 +36,7 @@
         header li {
             float: left;
             display: inline;
-            padding: 0 20px 0 20px;
+            padding: 0 20px;
         }
         header #branding {
             float: left;
@@ -48,65 +48,45 @@
             padding: 20px;
             margin: 20px 0;
             background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         h2 {
-            color: #333;
+            color: #0073e6;
+        }
+        a {
+            color: #0073e6;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
     <header>
-        <div class=“container”>
-            <div id=“branding”>
+        <div class="container">
+            <div id="branding">
                 <h1>Thanadol Sutantiwanichkul, PhD student</h1>
             </div>
         </div>
     </header>
-    <div class=“container”>
-        <section id=“personal-info”>
+    <div class="container">
+        <section id="personal-info">
             <h2>Personal Information</h2>
-            <p>Address: Sankt Eriksplan 11, 1104 Lgh 
-                113 20, Stockholm </p>
+            <p>Address: Sankt Eriksplan 11, 1104 Lgh<br>
+                113 20, Stockholm</p>
             <p>Name: Thanadol Sutantiwanicbhkul</p>
             <p>Email: thanadol@kth.se (official)</p>
             <p>Email: khunkoei@gmail.com (personal)</p>
-            <p>Linkedin: https://www.linkedin.com/in/thanadol-s</p>
-            <p>Email: https://www.github.com/thanadol-git </p>
-
+            <p>Linkedin: <a href="https://www.linkedin.com/in/thanadol-s">https://www.linkedin.com/in/thanadol-s</a></p>
+            <p>GitHub: <a href="https://www.github.com/thanadol-git">https://www.github.com/thanadol-git</a></p>
         </section>
-        <section id=“education”>
+        <section id="education">
             <h2>Education</h2>
             <p><strong>KTH Royal institute of technology, Sweden</strong></p>
             <p>MSc Molecular Techniques in Life Science, 2018 - 2020</p>
-            <p><strong>Mahidol University, Faculty of Sciecne, Thailand</strong></p>
-            <p>BSc Biomedical Science (Int.), 2014 - 2018</p>
-            <p><strong>Mahidol Wittayanusorn School, Thailand</strong></p>
-            <p>High School Diploma, 2014 - 2018</p>
-        </section>
-        <section id=“experience”>
-            <h2>Experience</h2>
-            <p><strong>Software Engineer at Example Corp</strong></p>
-            <p>June 2019 - Present</p>
-            <ul>
-                <li>Developed and maintained web applications using JavaScript, HTML, and CSS.</li>
-                <li>Collaborated with cross-functional teams to define, design, and ship new features.</li>
-            </ul>
-        </section>
-        <section id=“skills”>
-            <h2>Skills</h2>
-            <ul>
-                <li>Programming Languages: JavaScript, Python, Java</li>
-                <li>Web Technologies: HTML, CSS, React</li>
-                <li>Tools: Git, Docker, Jenkins</li>
-            </ul>
-        </section>
-        <section id=“contact”>
-            <h2>Contact</h2>
-            <p>Email: john.doe@example.com</p>
-            <p>LinkedIn: <a href=“https://www.linkedin.com/in/johndoe”>linkedin.com/in/johndoe</a></p>
+            <p><strong>Mahidol University, Faculty of Science, Thailand</strong></p>
         </section>
     </div>
 </body>
 </html>
-
-
