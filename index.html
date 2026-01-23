@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My CV</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
     <style>
         :root {
             color-scheme: light;
@@ -120,45 +121,22 @@
             min-width: 90px;
         }
         .world-map {
-            position: relative;
             width: 100%;
-            aspect-ratio: 2 / 1;
-            min-height: 320px;
-            background-color: #f3f4f6;
-            background: url("https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg") center/contain no-repeat;
-            filter: grayscale(1);
+            height: 420px;
             border: 1px solid var(--border);
             border-radius: 16px;
             box-shadow: var(--shadow);
             overflow: hidden;
+            background: #f3f4f6;
         }
-        .marker {
-            position: absolute;
-            width: var(--size, 14px);
-            height: var(--size, 14px);
-            border-radius: 50%;
-            background: #ef4444;
-            border: 2px solid #f9fafb;
-            box-shadow: 0 4px 10px rgba(17, 24, 39, 0.2);
-        }
-        .marker::after {
-            content: attr(data-label);
-            position: absolute;
-            left: 50%;
-            bottom: 18px;
-            transform: translateX(-50%);
-            white-space: nowrap;
-            background: #111827;
+        .map-label {
+            background: rgba(17, 24, 39, 0.85);
             color: #f9fafb;
-            padding: 4px 8px;
+            border: none;
             border-radius: 999px;
+            padding: 4px 8px;
             font-size: 0.75rem;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.15s ease;
-        }
-        .marker:hover::after {
-            opacity: 1;
+            box-shadow: 0 6px 14px rgba(17, 24, 39, 0.2);
         }
         @media (max-width: 720px) {
             .publication-item {
@@ -313,22 +291,56 @@
             </ul>        
         </section>
         <section id="conference-activity-map">
-            <h2>Conference &amp; Activity Map</h2>
-            <div class="world-map" aria-label="World map with conference and activity locations">
-                <span class="marker" style="left: 46%; top: 28%; --size: 22px;" data-label="United Kingdom (3)"></span>
-                <span class="marker" style="left: 50%; top: 30%; --size: 14px;" data-label="Germany (1)"></span>
-                <span class="marker" style="left: 49%; top: 26%; --size: 14px;" data-label="Denmark (1)"></span>
-                <span class="marker" style="left: 52%; top: 36%; --size: 14px;" data-label="Italy (1)"></span>
-                <span class="marker" style="left: 68%; top: 54%; --size: 38px;" data-label="Thailand (7)"></span>
-                <span class="marker" style="left: 70%; top: 60%; --size: 18px;" data-label="Singapore (2)"></span>
-                <span class="marker" style="left: 82%; top: 36%; --size: 14px;" data-label="Japan (1)"></span>
-            </div>
+            <h2>Map</h2>
+            <div id="world-map" class="world-map" aria-label="World map with conference and activity locations"></div>
         </section>
         <section id="map">
             <h2>SciLifeLab</h2>
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5752.268988050593!2d18.020851213364896!3d59.350456974518714!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x465f9d9c044c1fe5%3A0xfff6f935131557c1!2sSciLifeLab!5e1!3m2!1sen!2sse!4v1740181974676!5m2!1sen!2sse" width="1000" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </section>
     </div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script>
+        const map = L.map("world-map", {
+            scrollWheelZoom: false,
+            zoomControl: true,
+            attributionControl: true
+        }).setView([20, 10], 2);
+
+        L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            maxZoom: 6,
+            minZoom: 1
+        }).addTo(map);
+
+        const locations = [
+            { name: "United Kingdom", coords: [51.5, -0.1], count: 3 },
+            { name: "Germany", coords: [52.52, 13.4], count: 1 },
+            { name: "Denmark", coords: [55.68, 12.57], count: 1 },
+            { name: "Italy", coords: [41.9, 12.5], count: 1 },
+            { name: "Thailand", coords: [13.75, 100.5], count: 7 },
+            { name: "Singapore", coords: [1.35, 103.82], count: 2 },
+            { name: "Japan", coords: [35.68, 139.76], count: 1 }
+        ];
+
+        locations.forEach((location) => {
+            const radius = 7 + location.count * 3;
+            L.circleMarker(location.coords, {
+                radius,
+                color: "#f9fafb",
+                weight: 2,
+                fillColor: "#facc15",
+                fillOpacity: 0.9
+            })
+                .addTo(map)
+                .bindTooltip(`${location.name} (${location.count})`, {
+                    permanent: true,
+                    direction: "right",
+                    className: "map-label",
+                    offset: [8, 0]
+                });
+        });
+    </script>
 </body>
 </html>
 
