@@ -5,60 +5,191 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My CV</title>
     <style>
+        :root {
+            color-scheme: light;
+            --bg: #f6f7fb;
+            --surface: #ffffff;
+            --text: #1f2937;
+            --muted: #6b7280;
+            --accent: #4f46e5;
+            --accent-2: #06b6d4;
+            --border: #e5e7eb;
+            --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+        }
+        * {
+            box-sizing: border-box;
+        }
         body {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-family: "Inter", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f0f0f0;
-            color: #333;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
         }
         .container {
-            width: 80%;
-            margin: auto;
-            overflow: hidden;
+            width: min(1100px, 92%);
+            margin: 0 auto;
         }
         header {
-            background: #4d4d4d;
+            background: linear-gradient(135deg, #111827, #312e81);
             color: #fff;
-            padding: 20px 0;
-            border-bottom: #333 3px solid;
-        }
-        header a {
-            color: #fff;
-            text-decoration: none;
-            text-transform: uppercase;
-            font-size: 16px;
-        }
-        header ul {
-            padding: 0;
-            list-style: none;
-        }
-        header li {
-            float: left;
-            display: inline;
-            padding: 0 20px;
+            padding: 48px 0 36px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
         }
         header #branding {
-            float: left;
+            text-align: center;
         }
         header #branding h1 {
             margin: 0;
+            font-size: clamp(1.6rem, 2.2vw + 1rem, 2.6rem);
+            font-weight: 700;
+            letter-spacing: 0.3px;
         }
         section {
-            padding: 20px;
-            margin: 20px 0;
-            background: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 24px 28px;
+            margin: 22px 0;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
         }
         h2 {
-            color: #4d4d4d;
+            color: var(--text);
+            margin-top: 0;
+            font-size: 1.25rem;
+            letter-spacing: 0.2px;
+        }
+        p {
+            margin: 0 0 10px;
+            color: var(--muted);
+        }
+        ul {
+            margin: 0;
+            padding-left: 20px;
+            color: var(--muted);
         }
         a {
-            color: #4d4d4d;
+            color: var(--accent);
             text-decoration: none;
         }
         a:hover {
             text-decoration: underline;
+        }
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .social-icon {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+        .button-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 10px;
+            margin-left: auto;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: #374151;
+            color: #f9fafb;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 8px 16px rgba(17, 24, 39, 0.2);
+        }
+        .button-link:hover {
+            text-decoration: none;
+            background: #1f2937;
+        }
+        .publication-item {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+        .publication-item .publication-text {
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+        .publication-item .publication-action {
+            flex: 0 0 auto;
+            display: flex;
+            justify-content: flex-end;
+            min-width: 90px;
+        }
+        .world-map {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 2 / 1;
+            min-height: 320px;
+            background-color: #f3f4f6;
+            background: url("https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg") center/contain no-repeat;
+            filter: grayscale(1);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        .marker {
+            position: absolute;
+            width: var(--size, 14px);
+            height: var(--size, 14px);
+            border-radius: 50%;
+            background: #ef4444;
+            border: 2px solid #f9fafb;
+            box-shadow: 0 4px 10px rgba(17, 24, 39, 0.2);
+        }
+        .marker::after {
+            content: attr(data-label);
+            position: absolute;
+            left: 50%;
+            bottom: 18px;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            background: #111827;
+            color: #f9fafb;
+            padding: 4px 8px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.15s ease;
+        }
+        .marker:hover::after {
+            opacity: 1;
+        }
+        @media (max-width: 720px) {
+            .publication-item {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .publication-item .publication-action {
+                justify-content: flex-start;
+            }
+        }
+        .flex-container {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        .flex-container .left,
+        .flex-container .right {
+            flex: 1 1 280px;
+        }
+        #map iframe {
+            width: 100%;
+            max-width: 100%;
+            border-radius: 12px;
+        }
+        @media (max-width: 720px) {
+            header {
+                padding: 36px 0 28px;
+            }
+            section {
+                padding: 20px;
+            }
         }
     </style>
 </head>
@@ -82,8 +213,18 @@
                 <div class="right">
                     <p>Email (Official): thanadol@kth.se</p>
                     <p>Email (Personal): khunkoei@gmail.com</p>
-                    <p>Linkedin: <a href="https://www.linkedin.com/in/thanadol-s">https://www.linkedin.com/in/thanadol-s</a></p>
-                    <p>GitHub: <a href="https://www.github.com/thanadol-git">https://www.github.com/thanadol-git</a></p>
+                    <p>LinkedIn: <a class="social-link" href="https://www.linkedin.com/in/thanadol-s">
+                        <svg class="social-icon" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M20.45 20.45h-3.55v-5.56c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.95v5.65H9.37V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.59 0 4.26 2.36 4.26 5.44v6.3zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.55V9h3.57v11.45z"/>
+                        </svg>
+                        https://www.linkedin.com/in/thanadol-s
+                    </a></p>
+                    <p>GitHub: <a class="social-link" href="https://www.github.com/thanadol-git">
+                        <svg class="social-icon" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.18-3.37-1.18-.45-1.14-1.1-1.44-1.1-1.44-.9-.61.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.36 1.08 2.94.82.09-.65.35-1.08.64-1.33-2.22-.25-4.56-1.11-4.56-4.95 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .85-.27 2.78 1.02a9.7 9.7 0 0 1 5.06 0c1.93-1.29 2.78-1.02 2.78-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.85-2.34 4.7-4.57 4.95.36.31.69.92.69 1.86v2.76c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/>
+                        </svg>
+                        https://www.github.com/thanadol-git
+                    </a></p>
                 </div>
             </div>
         </section>
@@ -131,6 +272,17 @@
                 <li>Plant biochemistry lab, Faculty of Science, Mahidol University (2012)</li>
             </ul>
         </section>
+        <section id="publicatio">
+            <h2>Publication</h2>
+            <ul>
+                <li class="publication-item">
+                    <span class="publication-text">Álvez, M. B., Bergström, S., Kenrick, J., Johansson, E., Åberg, M., Akyildiz, M., Altay, O., Sköld, H., Antonopoulos, K., Apostolakis, E., Balcioglu, Y. H., Bergström, A., Bergström, G., Björkander, S., Brage, S. E., Brodin, P., Butler, L., Cajander, S., Danielsson, H., … Uhlén, M. (2025). A human pan-disease blood atlas of the circulating proteome. Science, 390(6779). https://doi.org/10.1126/science.adx2678</span>
+                    <span class="publication-action">
+                        <a class="button-link" href="https://doi.org/10.1126/science.adx2678" target="_blank" rel="noreferrer">Link 🔗</a>
+                    </span>
+                </li>
+            </ul>
+        </section>
         <section id="conference">
             <h2>Conference</h2>
             <ul>
@@ -139,11 +291,6 @@
                 <li>Benzon Symposium 68 – Integration of Mass Spectrometry-based Proteomics and AI to Revolutionize Personalized Medicine, Denmark</li>
                 <li>6th International Conference on Biochemistry and Molecular Biology, Thailand (Oral presentation)</li>
                 <li>7th Thailand Botany Conference (Poster presentation)</li>
-            </ul>
-        </section>
-        <section id="publicatio">
-            <h2>Publication</h2>
-            <ul>
             </ul>
         </section>
         <section id="activity">
@@ -164,6 +311,18 @@
                 <li>Yishun Junior College (YJC) student exchange, Singapore (2012)</li>
                 <li>7th International Student Science Fair (ISSF), Thailand (2012)</li>
             </ul>        
+        </section>
+        <section id="conference-activity-map">
+            <h2>Conference &amp; Activity Map</h2>
+            <div class="world-map" aria-label="World map with conference and activity locations">
+                <span class="marker" style="left: 46%; top: 28%; --size: 22px;" data-label="United Kingdom (3)"></span>
+                <span class="marker" style="left: 50%; top: 30%; --size: 14px;" data-label="Germany (1)"></span>
+                <span class="marker" style="left: 49%; top: 26%; --size: 14px;" data-label="Denmark (1)"></span>
+                <span class="marker" style="left: 52%; top: 36%; --size: 14px;" data-label="Italy (1)"></span>
+                <span class="marker" style="left: 68%; top: 54%; --size: 38px;" data-label="Thailand (7)"></span>
+                <span class="marker" style="left: 70%; top: 60%; --size: 18px;" data-label="Singapore (2)"></span>
+                <span class="marker" style="left: 82%; top: 36%; --size: 14px;" data-label="Japan (1)"></span>
+            </div>
         </section>
         <section id="map">
             <h2>SciLifeLab</h2>
