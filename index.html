@@ -47,6 +47,28 @@
             font-weight: 700;
             letter-spacing: 0.3px;
         }
+        .header-actions {
+            margin-top: 16px;
+            display: flex;
+            justify-content: center;
+        }
+        .primary-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border-radius: 999px;
+            background: #f9fafb;
+            color: #111827;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 8px 16px rgba(15, 23, 42, 0.2);
+        }
+        .primary-button:hover {
+            background: #e5e7eb;
+        }
         section {
             padding: 24px 28px;
             margin: 22px 0;
@@ -176,6 +198,9 @@
         <div class="container">
             <div id="branding">
                 <h1>Thanadol Sutantiwanichkul, PhD student</h1>
+                <div class="header-actions">
+                    <button class="primary-button" type="button" onclick="downloadCV()">Download CV</button>
+                </div>
             </div>
         </div>
     </header>
@@ -301,6 +326,77 @@
     </div>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script>
+        function downloadCV() {
+            const sectionIds = [
+                "personal-info",
+                "education",
+                "teaching",
+                "scholarship",
+                "experience",
+                "publicatio",
+                "conference",
+                "activity"
+            ];
+
+            const selectedSections = sectionIds
+                .map((id) => document.getElementById(id))
+                .filter(Boolean)
+                .map((section) => section.outerHTML)
+                .join("");
+
+            const printWindow = window.open("", "_blank", "width=900,height=1000");
+            if (!printWindow) {
+                return;
+            }
+
+            const printStyles = `
+                <style>
+                    * { box-sizing: border-box; }
+                    @page { size: A4; margin: 12mm; }
+                    body {
+                        font-family: "Inter", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+                        color: #111827;
+                        margin: 0;
+                        line-height: 1.35;
+                        font-size: 12px;
+                    }
+                    h1 { margin: 0 0 6px; font-size: 1.4rem; }
+                    h2 { margin: 10px 0 6px; font-size: 1rem; color: #111827; }
+                    p, li { color: #374151; }
+                    p { margin: 0 0 4px; }
+                    ul { margin: 0; padding-left: 18px; }
+                    li { margin-bottom: 2px; }
+                    section {
+                        border: 1px solid #e5e7eb;
+                        border-radius: 10px;
+                        padding: 8px 12px;
+                        margin-bottom: 8px;
+                        background: #ffffff;
+                        page-break-inside: avoid;
+                    }
+                    a { color: #111827; text-decoration: none; }
+                    img, svg { display: none !important; }
+                    .button-link, .header-actions, .primary-button { display: none !important; }
+                </style>
+            `;
+
+            printWindow.document.write(`
+                <html>
+                    <head>
+                        <title>Thanadol Sutantiwanichkul - CV</title>
+                        ${printStyles}
+                    </head>
+                    <body>
+                        <h1>Thanadol Sutantiwanichkul</h1>
+                        ${selectedSections}
+                    </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.focus();
+            printWindow.print();
+        }
+
         const map = L.map("world-map", {
             scrollWheelZoom: false,
             zoomControl: true,
