@@ -305,30 +305,30 @@
         <section id="conference">
             <h2>Conference</h2>
             <ul>
-                <li>HUPO-PSI Meeting 2026, Rome, Italy</li>
-                <li>BMB Thailand 2025, Thailand</li>
-                <li>HUPO-PSI Meeting 2025, Tübingen, Germany</li>
-                <li><a href="https://gyss.nrf.gov.sg/">Global Young Scientists Summit (GYSS) 2025</a>, Singapore</li>
-                <li>Thailand Bioinformatics Research Network (TBRN) Conference 2025, Thailand</li>
-                <li><a href="https://www.mcponline.org/article/S1535-9476(24)00167-1/fulltext">Benzon Symposium 68 – Integration of Mass Spectrometry-based Proteomics and AI to Revolutionize Personalized Medicine</a>, Denmark</li>
-                <li>6th International Conference on Biochemistry and Molecular Biology, Thailand (Oral presentation)</li>
-                <li>7th Thailand Botany Conference (Poster presentation)</li>
+                <li data-country="Italy">HUPO-PSI Meeting 2026, Rome, Italy</li>
+                <li data-country="Thailand">BMB Thailand 2025, Thailand</li>
+                <li data-country="Germany">HUPO-PSI Meeting 2025, Tübingen, Germany</li>
+                <li data-country="Singapore"><a href="https://gyss.nrf.gov.sg/">Global Young Scientists Summit (GYSS) 2025</a>, Singapore</li>
+                <li data-country="Thailand">Thailand Bioinformatics Research Network (TBRN) Conference 2025, Thailand</li>
+                <li data-country="Denmark"><a href="https://www.mcponline.org/article/S1535-9476(24)00167-1/fulltext">Benzon Symposium 68 – Integration of Mass Spectrometry-based Proteomics and AI to Revolutionize Personalized Medicine</a>, Denmark</li>
+                <li data-country="Thailand">6th International Conference on Biochemistry and Molecular Biology, Thailand (Oral presentation)</li>
+                <li data-country="Thailand">7th Thailand Botany Conference (Poster presentation)</li>
             </ul>
         </section>
         <section id="activity">
             <h2>Activity</h2>
             <ul>
-                <li>EMBL-EBI PRIDE Exchange Researcher, Hinxton, UK (2025)</li>
-                <li>Brixen Proteomics Summer School, Brixen (2025)</li>
-                <li>EMBL-EBI Proteomics Bioinformatics, UK (2024)</li>
+                <li data-country="United Kingdom">EMBL-EBI PRIDE Exchange Researcher, Hinxton, UK (2025)</li>
+                <li data-country="Italy">Brixen Proteomics Summer School, Brixen (2025)</li>
+                <li data-country="United Kingdom">EMBL-EBI Proteomics Bioinformatics, UK (2024)</li>
                 <li>FEBS 2022 Advanced course in Exploring the Human Proteome (2022)</li>
-                <li>Thai Young BMB Camp, Chulalongkorn University, Thailand (2018)</li>
-                <li>Global Bioeconomy Summit (GBS), Berlin, Germany (2018)</li>
-                <li>Young Thailand Science Ambassador (YTSA), National Science Museum (NSM) (2014)</li>
-                <li>Jenesys 2.0 Batch 5 Science & Technology, Japan (2014)</li>
-                <li>9th International Student Science Fair (ISSF), UK (2013)</li>
-                <li>Yishun Junior College (YJC) student exchange, Singapore (2012)</li>
-                <li>7th International Student Science Fair (ISSF), Thailand (2012)</li>
+                <li data-country="Thailand">Thai Young BMB Camp, Chulalongkorn University, Thailand (2018)</li>
+                <li data-country="Germany">Global Bioeconomy Summit (GBS), Berlin, Germany (2018)</li>
+                <li data-country="Thailand">Young Thailand Science Ambassador (YTSA), National Science Museum (NSM) (2014)</li>
+                <li data-country="Japan">Jenesys 2.0 Batch 5 Science & Technology, Japan (2014)</li>
+                <li data-country="United Kingdom">9th International Student Science Fair (ISSF), UK (2013)</li>
+                <li data-country="Singapore">Yishun Junior College (YJC) student exchange, Singapore (2012)</li>
+                <li data-country="Thailand">7th International Student Science Fair (ISSF), Thailand (2012)</li>
             </ul>        
         </section>
         <section id="conference-activity-map">
@@ -426,19 +426,27 @@
             minZoom: 1
         }).addTo(map);
 
-        const locations = [
-            { name: "United Kingdom", coords: [51.5, -0.1], count: 3 },
-            { name: "Germany", coords: [52.52, 13.4], count: 1 },
-            { name: "Denmark", coords: [55.68, 12.57], count: 1 },
-            { name: "Italy", coords: [41.9, 12.5], count: 1 },
-            { name: "Thailand", coords: [13.75, 100.5], count: 7 },
-            { name: "Singapore", coords: [1.35, 103.82], count: 2 },
-            { name: "Japan", coords: [35.68, 139.76], count: 1 }
-        ];
+        const countryCoords = {
+            "Thailand":       [13.75, 100.5],
+            "Singapore":      [1.35, 103.82],
+            "Germany":        [51.16, 10.45],
+            "Denmark":        [55.68, 12.57],
+            "Italy":          [41.87, 12.57],
+            "United Kingdom": [51.5, -0.12],
+            "Japan":          [36.2, 138.25]
+        };
 
-        locations.forEach((location) => {
-            const radius = 7 + location.count * 3;
-            L.circleMarker(location.coords, {
+        const counts = {};
+        document.querySelectorAll("#conference li[data-country], #activity li[data-country]").forEach(li => {
+            const c = li.dataset.country;
+            counts[c] = (counts[c] || 0) + 1;
+        });
+
+        Object.entries(counts).forEach(([country, count]) => {
+            const coords = countryCoords[country];
+            if (!coords) return;
+            const radius = 7 + count * 3;
+            L.circleMarker(coords, {
                 radius,
                 color: "#f9fafb",
                 weight: 2,
@@ -446,7 +454,7 @@
                 fillOpacity: 0.9
             })
                 .addTo(map)
-                .bindTooltip(`${location.name} (${location.count})`, {
+                .bindTooltip(`${country} (${count})`, {
                     permanent: true,
                     direction: "right",
                     className: "map-label",
